@@ -1,0 +1,33 @@
+name: Build and Syntax Check
+on:
+  push:
+    branches: ["master"]  
+pull_request:
+  
+  branches:["master"]
+
+jobs:
+  build:
+   runs on: ubuntu-latest
+
+     steps:
+     #Checkout Repository
+    - name: Checkout code
+    - uses: actions/checkout@v4 #Command used to checkout code from repo
+
+    # Set up .NET SDK
+    - name: Set up .NET SDK
+    - uses: actions/setup-dotnet@v4
+       with:
+         dotnet version: '8.0'
+      #Restore any dependencies
+      - name: Dependancies
+      - uses: dotnet restore
+
+      #Run unit tests
+      - name: Unit Test
+      - uses: dotnet test
+
+      #Build the project
+      - name: Project Build
+      - uses: dotnet build --configureation release 
